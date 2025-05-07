@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "395298537210",
+    "project_id": "recycleapplearn",
+    "storage_bucket": "recycleapplearn.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395298537210:android:fe1653f56579dd5d4b5343",
+        "android_client_info": {
+          "package_name": "com.example.recycle_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5wawlMSCLl8M51rJxNu8Svod05C429ok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

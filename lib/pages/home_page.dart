@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_app/styles/app_style.dart';
+import 'package:recycle_app/styles/app_text_style.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,8 +21,11 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 children: [
-                  Text('👋Hello, ', style: AppStyle.headlineTextStyle(25.0)),
-                  Text('Diseirang ', style: AppStyle.greenTextStyle(24.0)),
+                  Text(
+                    '👋Hello, ',
+                    style: AppTextStyle.headlineTextStyle(25.0),
+                  ),
+                  Text('Diseirang ', style: AppTextStyle.greenTextStyle(24.0)),
                   Spacer(),
                   _buildAvatarProfile(),
                 ],
@@ -48,11 +51,11 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             "Earn Points",
-                            style: AppStyle.headlineTextStyle(40.0),
+                            style: AppTextStyle.headlineTextStyle(40.0),
                           ),
                           Text(
                             "for discarded trash",
-                            style: AppStyle.normalTextStyle(24.0),
+                            style: AppTextStyle.normalTextStyle(24.0),
                           ),
                         ],
                       ),
@@ -65,7 +68,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 "Categories",
-                style: AppStyle.headlineTextStyle(24.0),
+                style: AppTextStyle.headlineTextStyle(24.0),
               ),
             ),
             _buildCategoryList(),
@@ -77,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Pending Requests",
-                    style: AppStyle.headlineTextStyle(24.0),
+                    style: AppTextStyle.headlineTextStyle(24.0),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -99,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(width: 10.0),
                             Text(
                               "Main market, Phnom Penh",
-                              style: AppStyle.normalTextStyle(20),
+                              style: AppTextStyle.normalTextStyle(20),
                             ),
                           ],
                         ),
@@ -115,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Icon(Icons.layers, color: Colors.green, size: 30.0),
                             SizedBox(width: 10.0),
-                            Text('3', style: AppStyle.normalTextStyle(20)),
+                            Text('3', style: AppTextStyle.normalTextStyle(20)),
                           ],
                         ),
                       ],
@@ -189,7 +192,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         SizedBox(height: 5.0),
-        Text(text, style: AppStyle.normalTextStyle(18.0)),
+        Text(text, style: AppTextStyle.normalTextStyle(18.0)),
       ],
     );
   }

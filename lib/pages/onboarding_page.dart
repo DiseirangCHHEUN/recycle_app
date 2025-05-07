@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_app/styles/app_style.dart';
+import 'package:recycle_app/styles/app_text_style.dart';
 import 'package:recycle_app/widgets/material_button.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -23,12 +23,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
               children: [
                 Text(
                   'Recycle your waste products!',
-                  style: AppStyle.headlineTextStyle(30.0),
+                  style: AppTextStyle.headlineTextStyle(30.0),
                 ),
                 SizedBox(height: 20.0),
                 Text(
                   'Easily collect household waste and generate less waste.',
-                  style: AppStyle.normalTextStyle(20.0),
+                  style: AppTextStyle.normalTextStyle(20.0),
                 ),
                 SizedBox(height: 100.0),
                 MButton('Get Started'),

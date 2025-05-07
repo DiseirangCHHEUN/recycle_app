@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../styles/app_style.dart';
+import '../styles/app_text_style.dart';
 
 class MButton extends StatelessWidget {
   const MButton(this.text, {super.key});
@@ -18,7 +18,7 @@ class MButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           color: Colors.green,
         ),
-        child: Text(text, style: AppStyle.whiteTextStyle(24.0)),
+        child: Text(text, style: AppTextStyle.whiteTextStyle(24.0)),
       ),
     );
   }

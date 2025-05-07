@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppStyle {
+class AppTextStyle {
   static TextStyle headlineTextStyle(double size) {
     return TextStyle(
       fontSize: size,
