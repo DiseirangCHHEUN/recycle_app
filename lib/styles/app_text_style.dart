@@ -32,4 +32,12 @@ class AppTextStyle {
       color: Colors.green,
     );
   }
+
+  static TextStyle greyTextStyle(double size) {
+    return TextStyle(
+      fontSize: size,
+      fontWeight: FontWeight.w500,
+      color: Colors.grey,
+    );
+  }
 }

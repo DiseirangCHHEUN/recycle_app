@@ -31,7 +31,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   style: AppTextStyle.normalTextStyle(20.0),
                 ),
                 SizedBox(height: 100.0),
-                MButton('Get Started'),
+                MButton('Get Started', onTap: () {}),
               ],
             ),
           ),

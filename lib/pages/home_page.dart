@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recycle_app/helper/shared_pref.dart';
+import 'package:recycle_app/services/auth_service.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +12,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  String? id;
+
+  getUserIdFromSharedPref() async {
+    await SharedPreferencesHelper().getUserId().then((value) {
+      setState(() {
+        id = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    getUserIdFromSharedPref();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,18 +44,26 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     '👋Hello, ',
-                    style: AppTextStyle.headlineTextStyle(25.0),
+                    style: AppTextStyle.headlineTextStyle(21.0),
                   ),
-                  Text('Diseirang ', style: AppTextStyle.greenTextStyle(24.0)),
+                  Text(
+                    user?.displayName ?? 'Username ',
+                    style: AppTextStyle.greenTextStyle(20.0),
+                  ),
                   Spacer(),
-                  _buildAvatarProfile(),
+                  GestureDetector(
+                    onTap: () {
+                      AuthService().signOut();
+                    },
+                    child: _buildAvatarProfile(),
+                  ),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20.0,
-                vertical: 25.0,
+                vertical: 15.0,
               ),
               child: Material(
                 elevation: 5.0,
@@ -43,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(25.0),
-                      child: Image.asset("assets/images/home0.jpeg"),
+                      child: Image.asset("assets/images/tash_bin.jpeg"),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 25, top: 25),
@@ -51,11 +80,11 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             "Earn Points",
-                            style: AppTextStyle.headlineTextStyle(40.0),
+                            style: AppTextStyle.whiteTextStyle(40.0),
                           ),
                           Text(
                             "for discarded trash",
-                            style: AppTextStyle.normalTextStyle(24.0),
+                            style: AppTextStyle.whiteTextStyle(24.0),
                           ),
                         ],
                       ),
@@ -68,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 "Categories",
-                style: AppTextStyle.headlineTextStyle(24.0),
+                style: AppTextStyle.headlineTextStyle(20.0),
               ),
             ),
             _buildCategoryList(),
@@ -80,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     "Pending Requests",
-                    style: AppTextStyle.headlineTextStyle(24.0),
+                    style: AppTextStyle.headlineTextStyle(20.0),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -130,15 +159,25 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/upload_item');
+        },
+        backgroundColor: Colors.white,
+        child: Icon(Icons.add),
+      ),
     );
   }
 
   SizedBox _buildAvatarProfile() {
     return SizedBox(
-      height: 50,
+      height: 40,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
-        child: Image.asset("assets/images/profile.jpg"),
+        child: Image.network(
+          user?.photoURL ?? "assets/images/profile.jpg",
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -151,7 +190,7 @@ class _HomePageState extends State<HomePage> {
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         children: [
-          _buildCategoryCard(image: 'assets/images/glass.jpeg', text: "Glas"),
+          _buildCategoryCard(image: 'assets/images/glass.jpeg', text: "Glass"),
           SizedBox(width: 30),
           _buildCategoryCard(
             image: 'assets/images/battery.jpeg',
@@ -175,19 +214,29 @@ class _HomePageState extends State<HomePage> {
   Column _buildCategoryCard({required String image, required String text}) {
     return Column(
       children: [
-        Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(width: 2.0, color: Colors.black54),
-            color: Colors.blue[50],
-          ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              '/upload_item',
+              arguments: {'categories': text, 'id': id},
+              // Pass the category name to the upload item page
+            );
+          },
           child: Container(
-            width: 70,
-            height: 70,
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              image: DecorationImage(image: AssetImage(image)),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(width: 2.0, color: Colors.black54),
+              color: Colors.blue[50],
+            ),
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                image: DecorationImage(image: AssetImage(image)),
+              ),
             ),
           ),
         ),

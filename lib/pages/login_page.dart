@@ -26,10 +26,13 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/plastic.jpeg',
-                    height: 150,
-                    width: 150,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Image.asset(
+                      'assets/images/plastic.jpeg',
+                      height: 150,
+                      width: 150,
+                    ),
                   ),
                   SizedBox(height: 10.0),
                   Text(
@@ -50,9 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 30.0),
                   GestureDetector(
                     onTap: () {
-                      AuthService().signinWithGoogle().then((value) {
-                        Navigator.pushReplacementNamed(context, '/home');
-                      });
+                      AuthService().signinWithGoogle();
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(20.0),

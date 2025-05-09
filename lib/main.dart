@@ -5,6 +5,9 @@ import 'package:recycle_app/pages/login_page.dart';
 import 'package:recycle_app/pages/home_page.dart';
 import 'package:recycle_app/pages/onboarding_page.dart';
 
+import 'wrapper/auth_checker.dart';
+import 'pages/upload_item.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -22,9 +25,11 @@ class MyApp extends StatelessWidget {
       title: 'Recycle App',
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginPage(),
+        '/': (context) => AuthChecker(),
+        '/login': (context) => LoginPage(),
         '/home': (context) => HomePage(),
         '/onboarding': (context) => OnboardingPage(),
+        '/upload_item': (context) => UploadItem(),
       },
     );
   }
