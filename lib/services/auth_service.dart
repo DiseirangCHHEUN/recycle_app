@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:recycle_app/helper/shared_pref.dart';
+import 'package:recycle_app/services/shared_pref.dart';
 
 import 'database.dart';
 
@@ -22,20 +22,19 @@ class AuthService {
     final UserCredential userCredential = await firebaseAuth
         .signInWithCredential(credential);
     final User? user = userCredential.user;
-    if (user != null) {
-      await SharedPreferencesHelper().saveUserId(user.uid);
-      await SharedPreferencesHelper().saveUserName(user.displayName!);
-      await SharedPreferencesHelper().saveUserEmail(user.email!);
-      await SharedPreferencesHelper().saveUserImage(user.photoURL!);
-      Map<String, dynamic> userData = {
-        'uid': user.uid,
-        'displayName': user.displayName,
-        'email': user.email,
-        'photoURL': user.photoURL,
-      };
+    await SharedPreferencesHelper().saveUserId(user!.uid);
+    await SharedPreferencesHelper().saveUserName(user.displayName!);
+    await SharedPreferencesHelper().saveUserEmail(user.email!);
+    await SharedPreferencesHelper().saveUserImage(user.photoURL!);
 
-      await DatabaseMethods().addUserInfo(userData, user.uid);
-    }
+    Map<String, dynamic> userData = {
+      'uid': user.uid,
+      'displayName': user.displayName,
+      'email': user.email,
+      'photoURL': user.photoURL,
+    };
+
+    await DatabaseMethods().addUserInfo(userData, user.uid);
   }
 
   signOut() async {

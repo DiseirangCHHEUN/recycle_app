@@ -13,9 +13,7 @@ class UploadItem extends StatefulWidget {
 
 class _UploadItemState extends State<UploadItem> {
   TextEditingController addressController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
 
   // Initialize ImagePicker
   final ImagePicker picker = ImagePicker();
@@ -41,14 +39,14 @@ class _UploadItemState extends State<UploadItem> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     final categories = args?['categories'] ?? '';
-    // final id = args?['id'] ?? '';
+    final id = args?['id'] ?? '';
 
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 15.0),
-          buildUploadAppBar(context, categories),
+          const SizedBox(height: 30.0),
+          buildUploadAppBar(),
           const SizedBox(height: 10.0),
           Expanded(
             child: Container(
@@ -61,7 +59,24 @@ class _UploadItemState extends State<UploadItem> {
                 ),
               ),
               child: ListView(
+                physics: BouncingScrollPhysics(),
                 children: [
+                  Center(
+                    child: Text(
+                      categories,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  Text(
+                    'Upload an image of the item you want to recycle',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10.0),
                   Center(
                     child: GestureDetector(
                       onTap: () {
@@ -101,63 +116,10 @@ class _UploadItemState extends State<UploadItem> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10.0),
-                  Material(
-                    borderRadius: BorderRadius.circular(10.0),
-                    elevation: 5.0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.location_on, color: Colors.green),
-                          const SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextField(
-                              controller: addressController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter your address',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    'Name',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Material(
-                    borderRadius: BorderRadius.circular(10.0),
-                    elevation: 5.0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.person_rounded, color: Colors.green),
-                          const SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextField(
-                              controller: nameController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter item name',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  buildUploadTextField(
+                    icon: Icons.location_on,
+                    controller: addressController,
+                    hintText: 'Enter your address',
                   ),
                   const SizedBox(height: 20.0),
                   Text(
@@ -165,81 +127,33 @@ class _UploadItemState extends State<UploadItem> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10.0),
-                  Material(
-                    borderRadius: BorderRadius.circular(10.0),
-                    elevation: 5.0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.inventory_rounded, color: Colors.green),
-                          const SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextField(
-                              controller: quantityController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter item quantity',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    'Description',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10.0),
-                  Material(
-                    borderRadius: BorderRadius.circular(10.0),
-                    elevation: 5.0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.edit_rounded,
-                              color: Colors.green,
-                            ),
-                          ),
-                          const SizedBox(width: 10.0),
-                          Expanded(
-                            child: TextField(
-                              textAlign: TextAlign.start,
-                              controller: descriptionController,
-                              maxLines: 3,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter item description',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  buildUploadTextField(
+                    icon: Icons.inventory,
+                    controller: quantityController,
+                    hintText: 'Enter item quantity',
                   ),
                   const SizedBox(height: 30.0),
                   MButton(
                     'Upload',
                     onTap: () {
                       // Handle button tap
-                      print('Upload Item button tapped');
+                      if (selectedImage != null &&
+                          addressController.text.isNotEmpty &&
+                          quantityController.text.isNotEmpty) {
+                        // String itemId = randomAlphaNumeric(10);
+                      } else {
+                        // Show error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Please fill all fields and select an image.',
+                            ),
+                          ),
+                        );
+                      }
                     },
                   ),
+                  const SizedBox(height: 20.0),
                 ],
               ),
             ),
@@ -249,7 +163,40 @@ class _UploadItemState extends State<UploadItem> {
     );
   }
 
-  buildUploadAppBar(BuildContext context, String categories) {
+  Material buildUploadTextField({
+    required IconData icon,
+    required TextEditingController controller,
+    required String hintText,
+  }) {
+    return Material(
+      borderRadius: BorderRadius.circular(10.0),
+      elevation: 5.0,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.green),
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: hintText,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  buildUploadAppBar() {
     return SizedBox(
       height: 50.0,
       child: Row(
@@ -279,7 +226,7 @@ class _UploadItemState extends State<UploadItem> {
           ),
           const SizedBox(width: 20.0),
           Text(
-            'Upload $categories image',
+            'Upload image',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
         ],

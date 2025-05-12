@@ -15,39 +15,49 @@ class _HomePageState extends State<HomePage> {
   final User? user = FirebaseAuth.instance.currentUser;
 
   String? id;
+  String? name;
+  // String? userProfile;
 
-  getUserIdFromSharedPref() async {
-    await SharedPreferencesHelper().getUserId().then((value) {
-      setState(() {
-        id = value;
-      });
+  Future<void> getUserInfoFromSharedPref() async {
+    // final userName = await SharedPreferencesHelper().getUserName();
+    final userId = await SharedPreferencesHelper().getUserId();
+    // final profile = await SharedPreferencesHelper().getUserImage();
+
+    setState(() {
+      id = userId;
+      // name = userName;
+      // userProfile = profile;
     });
   }
 
   @override
   void initState() {
-    getUserIdFromSharedPref();
     super.initState();
+    getUserInfoFromSharedPref();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 30.0),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 children: [
                   Text(
                     '👋Hello, ',
-                    style: AppTextStyle.headlineTextStyle(21.0),
+                    style: AppTextStyle.headlineTextStyle(20.0),
                   ),
                   Text(
-                    user?.displayName ?? 'Username ',
+                    user!.displayName ?? 'Annonymous',
+                    // name == null ? "Annonymous" : name!,
                     style: AppTextStyle.greenTextStyle(20.0),
                   ),
                   Spacer(),
@@ -174,10 +184,19 @@ class _HomePageState extends State<HomePage> {
       height: 40,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
-        child: Image.network(
-          user?.photoURL ?? "assets/images/profile.jpg",
-          fit: BoxFit.cover,
-        ),
+        child:
+            user!.photoURL == null
+                ? Image.asset("assets/images/profile.jpg", fit: BoxFit.cover)
+                : Image.network(
+                  user!.photoURL!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      "assets/images/profile.jpg",
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
       ),
     );
   }
@@ -191,17 +210,17 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         children: [
           _buildCategoryCard(image: 'assets/images/glass.jpeg', text: "Glass"),
-          SizedBox(width: 30),
+          SizedBox(width: 20),
           _buildCategoryCard(
             image: 'assets/images/battery.jpeg',
             text: "Battery",
           ),
-          SizedBox(width: 30),
+          SizedBox(width: 20),
           _buildCategoryCard(
             image: 'assets/images/plastic.jpeg',
             text: "Plastic",
           ),
-          SizedBox(width: 30),
+          SizedBox(width: 20),
           _buildCategoryCard(
             image: 'assets/images/papper.jpeg',
             text: "Papper",

@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
@@ -9,7 +8,6 @@ class SharedPreferencesHelper {
 
   Future<bool> saveUserId(String getUserId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    debugPrint('Saving userId: $getUserId');
     return await prefs.setString(_userIdKey, getUserId);
   }
 
@@ -23,6 +21,11 @@ class SharedPreferencesHelper {
     return await prefs.setString(_userNameKey, getUserName);
   }
 
+  Future<String?> getUserName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_userNameKey);
+  }
+
   Future<bool> saveUserEmail(String getUserEmail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(_userEmailKey, getUserEmail);
@@ -31,6 +34,11 @@ class SharedPreferencesHelper {
   Future<bool> saveUserImage(String getUserImage) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(_userImageKey, getUserImage);
+  }
+
+  Future<String?> getUserImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_userImageKey);
   }
 
   Future<bool> clearUserData() async {

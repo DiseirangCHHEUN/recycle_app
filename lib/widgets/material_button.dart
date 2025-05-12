@@ -14,7 +14,8 @@ class MButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Material(
-        elevation: 5.0,
+        elevation: 3.0,
+
         borderRadius: BorderRadius.circular(8),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),

@@ -14,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             Image.asset(
@@ -84,7 +85,9 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(width: 20.0),
                             Text(
                               'Sign in with Google',
-                              style: AppTextStyle.whiteTextStyle(24.0),
+                              style: AppTextStyle.whiteTextStyle(
+                                MediaQuery.of(context).size.width * 0.06,
+                              ),
                             ),
                           ],
                         ),
