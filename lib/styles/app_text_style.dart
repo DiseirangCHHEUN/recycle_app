@@ -13,7 +13,15 @@ class AppTextStyle {
     return TextStyle(
       fontSize: size,
       fontWeight: FontWeight.w500,
-      color: Colors.black,
+      // color: Colors.black,
+    );
+  }
+
+  static TextStyle boldTextStyle(double size) {
+    return TextStyle(
+      fontSize: size,
+      fontWeight: FontWeight.bold,
+      // color: Colors.black,
     );
   }
 

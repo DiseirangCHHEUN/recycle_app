@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recycle_app/helper/shared_pref.dart';
+import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/services/auth_service.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 
@@ -39,37 +39,117 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        foregroundColor: Colors.white,
+        title: Text("Recycle App"),
+        centerTitle: true,
+        backgroundColor: Colors.green,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {
+              // Handle notification action
+            },
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(color: Colors.green),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 25),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  buildAvatarProfile(),
+                  SizedBox(height: 10),
+                  Text(
+                    user!.displayName ?? 'Annonymous',
+                    style: AppTextStyle.whiteTextStyle(20),
+                  ),
+                  Text(
+                    user!.email ?? 'No email',
+                    style: AppTextStyle.whiteTextStyle(14),
+                  ),
+                  SizedBox(height: 25),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              leading: Icon(Icons.home_rounded),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+              trailing: Icon(Icons.arrow_forward_ios, size: 15),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings_rounded),
+              title: Text('Settings'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+              trailing: Icon(Icons.arrow_forward_ios, size: 15),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Divider(thickness: .5),
+            ),
+            Spacer(),
+            Divider(thickness: .5),
+            GestureDetector(
+              onTap: () {
+                AuthService().signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/login',
+                  (route) => false,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Center(
+                  child: Text(
+                    "Log Out",
+                    style: AppTextStyle.boldTextStyle(16.0),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                "Version 1.0.0\nDeveloped by Recycle Team",
+                style: AppTextStyle.normalTextStyle(10.0),
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 10.0),
+        padding: EdgeInsets.only(bottom: 20.0),
         physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30.0),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                children: [
-                  Text(
-                    '👋Hello, ',
-                    style: AppTextStyle.headlineTextStyle(20.0),
-                  ),
-                  Text(
-                    user!.displayName ?? 'Annonymous',
-                    // name == null ? "Annonymous" : name!,
-                    style: AppTextStyle.greenTextStyle(20.0),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      AuthService().signOut();
-                    },
-                    child: _buildAvatarProfile(),
-                  ),
-                ],
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20.0,
@@ -179,14 +259,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SizedBox _buildAvatarProfile() {
+  SizedBox buildAvatarProfile() {
     return SizedBox(
-      height: 40,
+      height: 80,
+      width: 80,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(100.0),
         child:
             user!.photoURL == null
-                ? Image.asset("assets/images/profile.jpg", fit: BoxFit.cover)
+                ? Image.asset("assets/images/profile.jpg")
                 : Image.network(
                   user!.photoURL!,
                   fit: BoxFit.cover,

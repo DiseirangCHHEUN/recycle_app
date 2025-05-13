@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: AppTextStyle.headlineTextStyle(20.0),
                   ),
                   Text("Repeat!", style: AppTextStyle.greenTextStyle(30.0)),
-                  SizedBox(height: 50.0),
+                  SizedBox(height: 35.0),
                   Text(
                     "Every items you recycle\nmakes a difference!",
                     textAlign: TextAlign.center,
@@ -51,13 +51,13 @@ class _LoginPageState extends State<LoginPage> {
                     "Get Started!",
                     style: AppTextStyle.greenTextStyle(24.0),
                   ),
-                  SizedBox(height: 30.0),
+                  SizedBox(height: 25.0),
                   GestureDetector(
                     onTap: () {
                       AuthService().signinWithGoogle();
                     },
                     child: Material(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(10.0),
                       elevation: 4.0,
                       child: Container(
                         padding: EdgeInsets.symmetric(
@@ -66,27 +66,27 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius: BorderRadius.circular(20.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(4.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(100),
                               ),
                               child: Image.asset(
                                 "assets/images/google.png",
-                                height: 50.0,
-                                width: 50.0,
+                                height: 25.0,
+                                width: 25.0,
                               ),
                             ),
                             SizedBox(width: 20.0),
                             Text(
                               'Sign in with Google',
                               style: AppTextStyle.whiteTextStyle(
-                                MediaQuery.of(context).size.width * 0.06,
+                                MediaQuery.of(context).size.width * 0.05,
                               ),
                             ),
                           ],

@@ -5,6 +5,7 @@ import 'package:recycle_app/pages/login_page.dart';
 import 'package:recycle_app/pages/home_page.dart';
 import 'package:recycle_app/pages/onboarding_page.dart';
 
+import 'admin/admin_approval.dart';
 import 'wrapper/auth_checker.dart';
 import 'pages/upload_item.dart';
 
@@ -21,15 +22,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          color: Colors.green,
+          foregroundColor: Colors.white,
+          centerTitle: true,
+        ),
+      ),
       title: 'Recycle App',
-      initialRoute: '/',
+      initialRoute: '/approval',
       routes: {
-        '/': (context) => AuthChecker(),
+        '/auth': (context) => AuthChecker(),
         '/login': (context) => LoginPage(),
         '/home': (context) => HomePage(),
         '/onboarding': (context) => OnboardingPage(),
         '/upload_item': (context) => UploadItem(),
+        '/approval': (context) => AdminApproval(),
       },
     );
   }

@@ -29,12 +29,12 @@ class DatabaseMethods {
     }
   }
 
-  Future addAdminItem(Map<String, dynamic> userInfoMap, String id) async {
+  Future addAdminItem(Map<String, dynamic> itemInfoMap, String id) async {
     try {
       await FirebaseFirestore.instance
           .collection("requests")
           .doc(id)
-          .set(userInfoMap);
+          .set(itemInfoMap);
     } catch (e) {
       print(e.toString());
     }

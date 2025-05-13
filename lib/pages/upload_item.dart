@@ -1,7 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:random_string/random_string.dart';
+import 'package:recycle_app/services/database.dart';
+import 'package:recycle_app/services/shared_pref.dart';
+import 'package:recycle_app/styles/app_text_style.dart';
 import 'package:recycle_app/widgets/material_button.dart';
 
 class UploadItem extends StatefulWidget {
@@ -18,6 +21,23 @@ class _UploadItemState extends State<UploadItem> {
   // Initialize ImagePicker
   final ImagePicker picker = ImagePicker();
   File? selectedImage; // Placeholder for image selection
+
+  String? id, name;
+  getInfoFromSharedPref() async {
+    // Implement your logic to get user info from shared preferences
+
+    // For example:
+    SharedPreferencesHelper prefs = SharedPreferencesHelper();
+    id = await prefs.getUserId();
+    name = await prefs.getUserName();
+    setState(() {});
+  }
+
+  @override
+  initState() {
+    super.initState();
+    getInfoFromSharedPref();
+  }
 
   // Function to select an image
   Future<void> selectImage() async {
@@ -42,6 +62,7 @@ class _UploadItemState extends State<UploadItem> {
     final id = args?['id'] ?? '';
 
     return Scaffold(
+      appBar: AppBar(title: const Text('Admin Approval')),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -120,6 +141,7 @@ class _UploadItemState extends State<UploadItem> {
                     icon: Icons.location_on,
                     controller: addressController,
                     hintText: 'Enter your address',
+                    keyboardType: TextInputType.streetAddress,
                   ),
                   const SizedBox(height: 20.0),
                   Text(
@@ -131,25 +153,90 @@ class _UploadItemState extends State<UploadItem> {
                     icon: Icons.inventory,
                     controller: quantityController,
                     hintText: 'Enter item quantity',
+                    keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 30.0),
                   MButton(
                     'Upload',
-                    onTap: () {
+                    onTap: () async {
                       // Handle button tap
-                      if (selectedImage != null &&
-                          addressController.text.isNotEmpty &&
-                          quantityController.text.isNotEmpty) {
-                        // String itemId = randomAlphaNumeric(10);
-                      } else {
-                        // Show error message
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Please fill all fields and select an image.',
+                      try {
+                        if (selectedImage != null &&
+                            addressController.text.isNotEmpty &&
+                            quantityController.text.isNotEmpty) {
+                          String itemId = randomAlphaNumeric(10);
+
+                          // Reference firebaseStorageRef = FirebaseStorage
+                          //     .instance
+                          //     .ref()
+                          //     .child('blog_images')
+                          //     .child('$itemId.jpg');
+
+                          // // Upload the image to Firebase Storage
+                          // final UploadTask task = firebaseStorageRef.putFile(
+                          //   selectedImage!,
+                          // );
+                          // var downloadUrl =
+                          //     await (await task).ref.getDownloadURL();
+
+                          Map<String, dynamic> addItem = {
+                            'imageUrl': "",
+                            'address': addressController.text.trim(),
+                            'quantity': int.parse(
+                              quantityController.text.trim(),
                             ),
-                          ),
-                        );
+                            'username': name,
+                            'userId': id,
+                            'status': 'pending',
+                          };
+
+                          await DatabaseMethods().addUserUplaodItem(
+                            addItem,
+                            id,
+                            itemId,
+                          );
+
+                          await DatabaseMethods().addAdminItem(addItem, itemId);
+
+                          // Clear the text fields
+                          addressController.clear();
+                          quantityController.clear();
+                          selectedImage = null; // Reset the selected image
+                          setState(() {}); // Update the UI
+                          // Show success message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Image uploaded successfully!',
+                                style: AppTextStyle.whiteTextStyle(14),
+                              ),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        } else if (selectedImage == null) {
+                          // Show error message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Please select an image.')),
+                          );
+                        } else if (addressController.text.isEmpty ||
+                            quantityController.text.isEmpty) {
+                          // Show error message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Please fill all fields.')),
+                          );
+                        } else {
+                          // Show error message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Please fill all fields and select an image.',
+                              ),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        // Handle error if needed
+                        print('Error uploading image: $e');
                       }
                     },
                   ),
@@ -167,6 +254,7 @@ class _UploadItemState extends State<UploadItem> {
     required IconData icon,
     required TextEditingController controller,
     required String hintText,
+    TextInputType keyboardType = TextInputType.text,
   }) {
     return Material(
       borderRadius: BorderRadius.circular(10.0),
@@ -183,6 +271,7 @@ class _UploadItemState extends State<UploadItem> {
             const SizedBox(width: 10.0),
             Expanded(
               child: TextField(
+                keyboardType: keyboardType,
                 controller: controller,
                 decoration: InputDecoration(
                   border: InputBorder.none,
