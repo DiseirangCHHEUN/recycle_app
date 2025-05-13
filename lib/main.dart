@@ -31,13 +31,13 @@ class MyApp extends StatelessWidget {
         ),
       ),
       title: 'Recycle App',
-      initialRoute: '/approval',
+      initialRoute: '/authcheck',
       routes: {
-        '/auth': (context) => AuthChecker(),
+        '/authcheck': (context) => AuthChecker(),
         '/login': (context) => LoginPage(),
         '/home': (context) => HomePage(),
         '/onboarding': (context) => OnboardingPage(),
-        '/upload_item': (context) => UploadItem(),
+        '/uploadItem': (context) => UploadItem(),
         '/approval': (context) => AdminApproval(),
       },
     );
