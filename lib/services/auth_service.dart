@@ -32,6 +32,7 @@ class AuthService {
       'displayName': user.displayName,
       'email': user.email,
       'photoURL': user.photoURL,
+      'points': 0,
     };
 
     await DatabaseMethods().addUserInfo(userData, user.uid);

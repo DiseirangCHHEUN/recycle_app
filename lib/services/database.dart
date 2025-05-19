@@ -57,20 +57,43 @@ class DatabaseMethods {
     }
   }
 
-  Future approveUserRequestItem(
-    Map<String, dynamic> itemInfoMap,
-    String id,
-    String itemId,
-  ) async {
+  Future approveUserRequestItem(String id, String itemId) async {
     try {
       await FirebaseFirestore.instance
-          .collection("requests")
+          .collection("users")
           .doc(id)
           .collection('items')
           .doc(itemId)
           .update({'status': 'approved'});
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future updateUserPoints(String id, int newPoints) async {
+    try {
+      await FirebaseFirestore.instance.collection("users").doc(id).update({
+        'points': newPoints,
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<int?> getUserPoints(String docId) async {
+    try {
+      final userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(docId).get();
+
+      if (userSnapshot.exists) {
+        return userSnapshot.get('points');
+      } else {
+        print("No such documents found.");
+        return null;
+      }
+    } catch (e) {
+      print("Error getting userpoints $e");
+      return null;
     }
   }
 }

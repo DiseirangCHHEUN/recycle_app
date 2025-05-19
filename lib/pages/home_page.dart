@@ -103,6 +103,7 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.person_rounded),
               title: Text('Admin Approval'),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.pushNamed(context, '/admin_approval');
               },
               trailing: Icon(Icons.arrow_forward_ios, size: 15),

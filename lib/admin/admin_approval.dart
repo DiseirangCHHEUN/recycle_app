@@ -17,6 +17,10 @@ class _UploadItemState extends State<AdminApproval> {
     setState(() {});
   }
 
+  Future<int?> getUserPoints(String docId) async {
+    return await DatabaseMethods().getUserPoints(docId);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -38,13 +42,15 @@ class _UploadItemState extends State<AdminApproval> {
               final itemQuantity = item['quantity'];
               final itemRequesterName = item['username'];
               final itemStatus = item['status'];
-              final itemId = item.id;
+              final docId = item.id;
+              final userId = item['userId'];
               return buildApprovalItem(
                 requesterName: itemRequesterName,
                 address: itemAddress,
                 quantity: itemQuantity,
                 status: itemStatus,
-                id: itemId,
+                id: docId,
+                userID: userId,
               );
             },
           );
@@ -107,6 +113,7 @@ class _UploadItemState extends State<AdminApproval> {
     required int quantity,
     required String status,
     required String id,
+    required String userID,
   }) {
     return Container(
       width: double.infinity,
@@ -176,8 +183,18 @@ class _UploadItemState extends State<AdminApproval> {
                 children: [
                   buildAdminActionButton(
                     onTap: () async {
+                      int? userPoints = await getUserPoints(userID);
+                      int newPoints = userPoints! + 100;
+                      await DatabaseMethods().updateUserPoints(
+                        userID,
+                        newPoints,
+                      );
                       // Handle approve action
                       await DatabaseMethods().adminApproveRequestItem(id);
+                      await DatabaseMethods().approveUserRequestItem(
+                        userID,
+                        id,
+                      );
                       // Optionally, show a success message or navigate to another screen
                     },
                     buttonText: 'Approve',
