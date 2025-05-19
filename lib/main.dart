@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/onboarding': (context) => OnboardingPage(),
         '/uploadItem': (context) => UploadItem(),
-        '/approval': (context) => AdminApproval(),
+        '/admin_approval': (context) => AdminApproval(),
       },
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 
+import '../services/database.dart';
+
 class AdminApproval extends StatefulWidget {
   const AdminApproval({super.key});
 
@@ -9,6 +11,68 @@ class AdminApproval extends StatefulWidget {
 }
 
 class _UploadItemState extends State<AdminApproval> {
+  Stream? adminApprovalStream;
+  Future getAdminApprovalItems() async {
+    adminApprovalStream = await DatabaseMethods().getAdminApprovalItems();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getAdminApprovalItems();
+  }
+
+  allApprovalItems() {
+    return StreamBuilder(
+      stream: adminApprovalStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            padding: EdgeInsets.zero,
+            physics: const BouncingScrollPhysics(),
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              final item = snapshot.data!.docs[index];
+              final itemAddress = item['address'];
+              final itemQuantity = item['quantity'];
+              final itemRequesterName = item['username'];
+              final itemStatus = item['status'];
+              final itemId = item.id;
+              return buildApprovalItem(
+                requesterName: itemRequesterName,
+                address: itemAddress,
+                quantity: itemQuantity,
+                status: itemStatus,
+                id: itemId,
+              );
+            },
+          );
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Loading...', style: AppTextStyle.normalTextStyle(16)),
+                const SizedBox(height: 10.0),
+                CircularProgressIndicator(),
+              ],
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Error: ${snapshot.error}',
+              style: AppTextStyle.normalTextStyle(16),
+            ),
+          );
+        } else {
+          return Center(child: Text('No data available'));
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,29 +81,19 @@ class _UploadItemState extends State<AdminApproval> {
         children: [
           const SizedBox(height: 30.0),
           buildUploadAppBar(),
-          const SizedBox(height: 10.0),
+          const SizedBox(height: 8.0),
           Expanded(
             child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 color: Color(0xFFE9E9F9),
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25.0),
                 ),
               ),
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildApprovalItem(),
-                    buildApprovalItem(),
-                    buildApprovalItem(),
-                  ],
-                ),
-              ),
+              child: allApprovalItems(),
             ),
           ),
         ],
@@ -47,14 +101,20 @@ class _UploadItemState extends State<AdminApproval> {
     );
   }
 
-  Container buildApprovalItem() {
+  Container buildApprovalItem({
+    required String requesterName,
+    required String address,
+    required int quantity,
+    required String status,
+    required String id,
+  }) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 15.0),
+      margin: const EdgeInsets.only(bottom: 10.0),
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(18.0),
       ),
       child: Row(
         children: [
@@ -79,15 +139,24 @@ class _UploadItemState extends State<AdminApproval> {
                 children: [
                   Icon(Icons.person_rounded, color: Colors.green, size: 20),
                   SizedBox(width: 4.0),
-                  Text('Requester Name', style: AppTextStyle.boldTextStyle(14)),
+                  Text(requesterName, style: AppTextStyle.boldTextStyle(14)),
                 ],
               ),
               const SizedBox(height: 5.0),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(Icons.location_pin, color: Colors.green, size: 20),
                   SizedBox(width: 4.0),
-                  Text('Psar Tmey', style: AppTextStyle.normalTextStyle(14)),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: Text(
+                      address,
+                      style: AppTextStyle.normalTextStyle(14),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 5.0),
@@ -95,7 +164,10 @@ class _UploadItemState extends State<AdminApproval> {
                 children: [
                   Icon(Icons.inventory_rounded, color: Colors.green, size: 20),
                   SizedBox(width: 4.0),
-                  Text('5', style: AppTextStyle.normalTextStyle(14)),
+                  Text(
+                    quantity.toString(),
+                    style: AppTextStyle.normalTextStyle(14),
+                  ),
                 ],
               ),
               const SizedBox(height: 10.0),
@@ -103,8 +175,10 @@ class _UploadItemState extends State<AdminApproval> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   buildAdminActionButton(
-                    onTap: () {
+                    onTap: () async {
                       // Handle approve action
+                      await DatabaseMethods().adminApproveRequestItem(id);
+                      // Optionally, show a success message or navigate to another screen
                     },
                     buttonText: 'Approve',
                     color: Colors.green,

@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
-        title: Text("Recycle App"),
+        title: Text("សម្រាមកែឆ្នៃ", style: AppTextStyle.boldTextStyle(16)),
         centerTitle: true,
         backgroundColor: Colors.green,
         actions: [
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back),
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                   buildAvatarProfile(),
                   SizedBox(height: 10),
                   Text(
-                    user!.displayName ?? 'Annonymous',
+                    user!.displayName ?? 'Anonymous',
                     style: AppTextStyle.whiteTextStyle(20),
                   ),
                   Text(
@@ -96,6 +96,14 @@ class _HomePageState extends State<HomePage> {
               title: Text('Home'),
               onTap: () {
                 Navigator.pop(context);
+              },
+              trailing: Icon(Icons.arrow_forward_ios, size: 15),
+            ),
+            ListTile(
+              leading: Icon(Icons.person_rounded),
+              title: Text('Admin Approval'),
+              onTap: () {
+                Navigator.pushNamed(context, '/admin_approval');
               },
               trailing: Icon(Icons.arrow_forward_ios, size: 15),
             ),
@@ -251,7 +259,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/upload_item');
+          Navigator.pushNamed(context, '/uploadItem');
         },
         backgroundColor: Colors.white,
         child: Icon(Icons.add),
@@ -302,10 +310,7 @@ class _HomePageState extends State<HomePage> {
             text: "Plastic",
           ),
           SizedBox(width: 20),
-          _buildCategoryCard(
-            image: 'assets/images/papper.jpeg',
-            text: "Papper",
-          ),
+          _buildCategoryCard(image: 'assets/images/papper.jpeg', text: "Paper"),
         ],
       ),
     );
@@ -318,7 +323,7 @@ class _HomePageState extends State<HomePage> {
           onTap: () {
             Navigator.pushNamed(
               context,
-              '/upload_item',
+              '/uploadItem',
               arguments: {'categories': text, 'id': id},
               // Pass the category name to the upload item page
             );

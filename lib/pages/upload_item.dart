@@ -62,7 +62,6 @@ class _UploadItemState extends State<UploadItem> {
     final id = args?['id'] ?? '';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Admin Approval')),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
