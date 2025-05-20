@@ -48,4 +48,12 @@ class AppTextStyle {
       color: Colors.grey,
     );
   }
+
+  static TextStyle dangerTextStyle(double size) {
+    return TextStyle(
+      fontSize: size,
+      fontWeight: FontWeight.bold,
+      color: Colors.red,
+    );
+  }
 }

@@ -1,26 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethods {
-  Future addUserInfo(Map<String, dynamic> userInfoMap, String id) async {
+  Future addUserInfo(Map<String, dynamic> userInfoMap, String uid) async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(id)
+          .doc(uid)
           .set(userInfoMap);
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future addUserUplaodItem(
+  Future addUserUploadItem(
     Map<String, dynamic> userInfoMap,
-    String id,
+    String uid,
     String itemId,
   ) async {
     try {
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(id)
+          .doc(uid)
           .collection("items")
           .doc(itemId)
           .set(userInfoMap);
@@ -47,6 +47,14 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  Future<Stream<QuerySnapshot>> getAdminRejectedItems(String uid) async {
+    return FirebaseFirestore.instance
+        .collection("requests")
+        .where('status', isEqualTo: 'rejected')
+        .where('userId', isEqualTo: uid)
+        .snapshots();
+  }
+
   Future adminApproveRequestItem(String id) async {
     try {
       await FirebaseFirestore.instance.collection("requests").doc(id).update({
@@ -70,9 +78,32 @@ class DatabaseMethods {
     }
   }
 
-  Future updateUserPoints(String id, int newPoints) async {
+  Future adminRejectRequestItem(String id) async {
     try {
-      await FirebaseFirestore.instance.collection("users").doc(id).update({
+      await FirebaseFirestore.instance.collection("requests").doc(id).update({
+        'status': 'rejected',
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future rejectUserRequestItem(String id, String itemId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(id)
+          .collection('items')
+          .doc(itemId)
+          .update({'status': 'rejected'});
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future updateUserPoints(String uid, int newPoints) async {
+    try {
+      await FirebaseFirestore.instance.collection("users").doc(uid).update({
         'points': newPoints,
       });
     } catch (e) {
@@ -92,7 +123,7 @@ class DatabaseMethods {
         return null;
       }
     } catch (e) {
-      print("Error getting userpoints $e");
+      print("Error getting user points $e");
       return null;
     }
   }

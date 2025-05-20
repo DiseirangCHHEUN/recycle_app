@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 import 'package:recycle_app/widgets/custom_appBar.dart';
 
 import '../services/database.dart';
 
-class AdminApproval extends StatefulWidget {
-  const AdminApproval({super.key});
+class AdminReject extends StatefulWidget {
+  const AdminReject({super.key});
 
   @override
-  State<AdminApproval> createState() => _UploadItemState();
+  State<AdminReject> createState() => _UploadItemState();
 }
 
-class _UploadItemState extends State<AdminApproval> {
-  Stream? adminApprovalStream;
-  Future getAdminApprovalItems() async {
-    adminApprovalStream = await DatabaseMethods().getAdminApprovalItems();
-    setState(() {});
+class _UploadItemState extends State<AdminReject> {
+  Stream? adminRejectStream;
+  Future getAdminRejectItems(String uid) async {
+    adminRejectStream = await DatabaseMethods().getAdminRejectedItems(uid);
   }
 
-  Future<int?> getUserPoints(String docId) async {
-    return await DatabaseMethods().getUserPoints(docId);
+  getUserID() async {
+    final userId = await SharedPreferencesHelper().getUserId();
+    getAdminRejectItems(userId!);
+    setState(() {});
   }
 
   @override
   void initState() {
+    getUserID();
     super.initState();
-    getAdminApprovalItems();
   }
 
-  allApprovalItems() {
+  allRejectedItems() {
     return StreamBuilder(
-      stream: adminApprovalStream,
+      stream: adminRejectStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
@@ -45,7 +47,7 @@ class _UploadItemState extends State<AdminApproval> {
               final itemStatus = item['status'];
               final docId = item.id;
               final userId = item['userId'];
-              return buildApprovalItem(
+              return buildRejectedItem(
                 requesterName: itemRequesterName,
                 address: itemAddress,
                 quantity: itemQuantity,
@@ -80,7 +82,7 @@ class _UploadItemState extends State<AdminApproval> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MyAppBar(appBarTitle: 'Admin Approval'),
+            MyAppBar(appBarTitle: 'Rejected Items'),
             const SizedBox(height: 8.0),
             Expanded(
               child: Container(
@@ -93,7 +95,7 @@ class _UploadItemState extends State<AdminApproval> {
                     topRight: Radius.circular(25.0),
                   ),
                 ),
-                child: allApprovalItems(),
+                child: allRejectedItems(),
               ),
             ),
           ],
@@ -102,7 +104,7 @@ class _UploadItemState extends State<AdminApproval> {
     );
   }
 
-  Container buildApprovalItem({
+  Container buildRejectedItem({
     required String requesterName,
     required String address,
     required int quantity,
@@ -172,42 +174,57 @@ class _UploadItemState extends State<AdminApproval> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 5.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  adminActionButton(
-                    onTap: () async {
-                      int? userPoints = await getUserPoints(userID);
-                      int newPoints = userPoints! + 100;
-                      await DatabaseMethods().updateUserPoints(
-                        userID,
-                        newPoints,
-                      );
-                      // Handle approve action
-                      await DatabaseMethods().adminApproveRequestItem(id);
-                      await DatabaseMethods().approveUserRequestItem(
-                        userID,
-                        id,
-                      );
-                      // Optionally, show a success message or navigate to another screen
-                    },
-                    buttonText: 'Approve',
+                  Icon(
+                    Icons.online_prediction_rounded,
                     color: Colors.green,
+                    size: 20,
                   ),
-                  const SizedBox(width: 10.0),
-                  adminActionButton(
-                    onTap: () async {
-                      // Handle reject action
-                      await DatabaseMethods().adminRejectRequestItem(id);
-                      await DatabaseMethods().rejectUserRequestItem(userID, id);
-                      // Optionally, show a success message or navigate to another screen
-                    },
-                    buttonText: 'Reject',
-                    color: const Color(0xFFFF6363),
+                  SizedBox(width: 4.0),
+                  Text(
+                    status == "rejected" ? "Rejected" : "Undefinded",
+                    style: AppTextStyle.dangerTextStyle(14),
                   ),
                 ],
               ),
+              const SizedBox(height: 10.0),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     adminActionButton(
+              //       onTap: () async {
+              //         int? userPoints = await getUserPoints(userID);
+              //         int newPoints = userPoints! + 100;
+              //         await DatabaseMethods().updateUserPoints(
+              //           userID,
+              //           newPoints,
+              //         );
+              //         // Handle approve action
+              //         await DatabaseMethods().adminApproveRequestItem(id);
+              //         await DatabaseMethods().approveUserRequestItem(
+              //           userID,
+              //           id,
+              //         );
+              //         // Optionally, show a success message or navigate to another screen
+              //       },
+              //       buttonText: 'Approve',
+              //       color: Colors.green,
+              //     ),
+              //     const SizedBox(width: 10.0),
+              //     adminActionButton(
+              //       onTap: () async {
+              //         // Handle reject action
+              //         await DatabaseMethods().adminRejectRequestItem(id);
+              //         await DatabaseMethods().rejectUserRequestItem(userID, id);
+              //         // Optionally, show a success message or navigate to another screen
+              //       },
+              //       buttonText: 'Reject',
+              //       color: const Color(0xFFFF6363),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ],

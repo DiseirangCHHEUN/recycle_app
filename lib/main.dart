@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:recycle_app/admin/admin_rejected.dart';
 import 'package:recycle_app/firebase_options.dart' show DefaultFirebaseOptions;
 import 'package:recycle_app/pages/login_page.dart';
 import 'package:recycle_app/pages/home_page.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/onboarding': (context) => OnboardingPage(),
         '/uploadItem': (context) => UploadItem(),
         '/admin_approval': (context) => AdminApproval(),
+        '/rejected_items': (context) => AdminReject(),
         '/settings': (context) => SettingPage(),
       },
     );

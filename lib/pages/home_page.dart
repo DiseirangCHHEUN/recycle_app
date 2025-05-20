@@ -53,106 +53,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(color: Colors.green),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 25),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  buildAvatarProfile(),
-                  SizedBox(height: 10),
-                  Text(
-                    user!.displayName ?? 'Anonymous',
-                    style: AppTextStyle.whiteTextStyle(20),
-                  ),
-                  Text(
-                    user!.email ?? 'No email',
-                    style: AppTextStyle.whiteTextStyle(14),
-                  ),
-                  SizedBox(height: 25),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            ListTile(
-              leading: Icon(Icons.home_rounded),
-              title: Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-              trailing: Icon(Icons.arrow_forward_ios, size: 15),
-            ),
-            ListTile(
-              leading: Icon(Icons.person_rounded),
-              title: Text('Admin Approval'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/admin_approval');
-              },
-              trailing: Icon(Icons.arrow_forward_ios, size: 15),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings_rounded),
-              title: Text('Settings'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-              trailing: Icon(Icons.arrow_forward_ios, size: 15),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Divider(thickness: .5),
-            ),
-            Spacer(),
-            Divider(thickness: .5),
-            GestureDetector(
-              onTap: () {
-                AuthService().signOut();
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/login',
-                  (route) => false,
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Center(
-                  child: Text(
-                    "Log Out",
-                    style: AppTextStyle.boldTextStyle(16.0),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                "Version 1.0.0\nDeveloped by Recycle Team",
-                style: AppTextStyle.normalTextStyle(10.0),
-              ),
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      ),
+      drawer: _drawer(context),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 20.0),
         physics: BouncingScrollPhysics(),
@@ -162,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20.0,
-                vertical: 15.0,
+                vertical: 20.0,
               ),
               child: Material(
                 elevation: 5.0,
@@ -268,7 +169,124 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SizedBox buildAvatarProfile() {
+  _drawer(BuildContext context) {
+    return Drawer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(color: Colors.green),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 25),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                avatarProfile(),
+                SizedBox(height: 10),
+                Text(
+                  user!.displayName ?? 'Anonymous',
+                  style: AppTextStyle.whiteTextStyle(20),
+                ),
+                Text(
+                  user!.email ?? 'No email',
+                  style: AppTextStyle.whiteTextStyle(14),
+                ),
+                SizedBox(height: 25),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          ListTile(
+            leading: Icon(Icons.home_rounded),
+            title: Text('Home'),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            trailing: Icon(Icons.arrow_forward_ios, size: 15),
+          ),
+          ListTile(
+            leading: Icon(Icons.approval_rounded),
+            title: Text('Admin Approval'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/admin_approval');
+            },
+            trailing: Icon(Icons.arrow_forward_ios, size: 15),
+          ),
+          ListTile(
+            leading: Icon(Icons.cancel_rounded),
+            title: Text('Rejected Request'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/rejected_items');
+            },
+            trailing: Icon(Icons.arrow_forward_ios, size: 15),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings_rounded),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+            trailing: Icon(Icons.arrow_forward_ios, size: 15),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Divider(thickness: .5),
+          ),
+          Spacer(),
+          Divider(thickness: .5),
+          GestureDetector(
+            onTap: () {
+              AuthService().signOut();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login',
+                (route) => false,
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.logout_rounded, color: Colors.red, size: 20),
+                  SizedBox(width: 10),
+                  Text("Log Out", style: AppTextStyle.dangerTextStyle(16.0)),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              "Version 1.0.0\nDeveloped by Recycle Team",
+              style: AppTextStyle.normalTextStyle(10.0),
+            ),
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  SizedBox avatarProfile() {
     return SizedBox(
       height: 80,
       width: 80,
@@ -325,7 +343,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.pushNamed(
               context,
               '/uploadItem',
-              arguments: {'categories': text, 'id': id},
+              arguments: {'categories': text, 'userId': id},
               // Pass the category name to the upload item page
             );
           },
