@@ -8,6 +8,7 @@ import 'package:recycle_app/pages/onboarding_page.dart';
 import 'package:recycle_app/settings/setting_page.dart';
 
 import 'admin/admin_approval.dart';
+import 'pages/bottom_nav.dart';
 import 'wrapper/auth_checker.dart';
 import 'pages/upload_item.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       title: 'Recycle App',
-      initialRoute: '/authcheck',
+      initialRoute: '/bottom_nav',
       routes: {
         '/authcheck': (context) => AuthChecker(),
         '/login': (context) => LoginPage(),
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/admin_approval': (context) => AdminApproval(),
         '/rejected_items': (context) => AdminReject(),
         '/settings': (context) => SettingPage(),
+        '/bottom_nav': (context) => BottomNavigation(),
       },
     );
   }

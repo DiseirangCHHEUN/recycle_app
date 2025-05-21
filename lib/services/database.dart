@@ -21,7 +21,7 @@ class DatabaseMethods {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(uid)
-          .collection("items")
+          .collection("requests")
           .doc(itemId)
           .set(userInfoMap);
     } catch (e) {
@@ -70,7 +70,7 @@ class DatabaseMethods {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(id)
-          .collection('items')
+          .collection('requests')
           .doc(itemId)
           .update({'status': 'approved'});
     } catch (e) {

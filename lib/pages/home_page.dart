@@ -12,28 +12,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final User? user = FirebaseAuth.instance.currentUser;
+  // final User? user = FirebaseAuth.instance.currentUser;
 
-  String? id;
-  String? name;
-  // String? userProfile;
+  String? uid, username, userEmail, userImage;
 
-  Future<void> getUserInfoFromSharedPref() async {
-    // final userName = await SharedPreferencesHelper().getUserName();
-    final userId = await SharedPreferencesHelper().getUserId();
-    // final profile = await SharedPreferencesHelper().getUserImage();
+  getUserInfoFromSharedPref() async {
+    final name = await SharedPreferencesHelper().getUserName();
+    final id = await SharedPreferencesHelper().getUserId();
+    final profile = await SharedPreferencesHelper().getUserImage();
+    final email = await SharedPreferencesHelper().getUserEmail();
 
     setState(() {
-      id = userId;
-      // name = userName;
-      // userProfile = profile;
+      uid = id;
+      username = name;
+      userImage = profile;
+      userEmail = email;
     });
   }
 
   @override
   void initState() {
-    super.initState();
     getUserInfoFromSharedPref();
+    super.initState();
   }
 
   @override
@@ -159,13 +159,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/uploadItem');
-        },
-        backgroundColor: Colors.white,
-        child: Icon(Icons.add),
-      ),
     );
   }
 
@@ -199,11 +192,11 @@ class _HomePageState extends State<HomePage> {
                 avatarProfile(),
                 SizedBox(height: 10),
                 Text(
-                  user!.displayName ?? 'Anonymous',
+                  username ?? 'Anonymous',
                   style: AppTextStyle.whiteTextStyle(20),
                 ),
                 Text(
-                  user!.email ?? 'No email',
+                  userEmail ?? 'No email',
                   style: AppTextStyle.whiteTextStyle(14),
                 ),
                 SizedBox(height: 25),
@@ -293,10 +286,10 @@ class _HomePageState extends State<HomePage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(100.0),
         child:
-            user!.photoURL == null
+            userImage == null
                 ? Image.asset("assets/images/profile.jpg")
                 : Image.network(
-                  user!.photoURL!,
+                  userImage!,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
@@ -343,7 +336,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.pushNamed(
               context,
               '/uploadItem',
-              arguments: {'categories': text, 'userId': id},
+              arguments: {'categories': text, 'userId': uid},
               // Pass the category name to the upload item page
             );
           },
