@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recycle_app/app_routes.dart';
 import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/services/auth_service.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
@@ -217,7 +217,7 @@ class _HomePageState extends State<HomePage> {
             title: Text('Admin Approval'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/admin_approval');
+              Navigator.pushNamed(context, AppRoutes.adminApproval);
             },
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
           ),

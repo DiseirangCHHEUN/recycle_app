@@ -54,7 +54,7 @@ class PointsPage extends StatelessWidget {
               width: availableWidth,
               height: availableHeight,
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: const Color(0xFFF8F8F8),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -62,12 +62,11 @@ class PointsPage extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(20),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.point_of_sale_rounded,
-                    size: 100,
-                    color: Colors.white,
+                  Image.asset(
+                    'assets/images/points.png',
+                    width: availableWidth * 0.3,
+                    height: availableHeight * 0.2,
                   ),
                   const SizedBox(height: 10),
                   Text('1000', style: AppTextStyle.boldTextStyle(40)),

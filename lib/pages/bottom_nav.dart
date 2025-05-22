@@ -5,14 +5,14 @@ import 'package:recycle_app/pages/profile_page.dart';
 
 import 'points_page.dart';
 
-class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+class BottomNav extends StatefulWidget {
+  const BottomNav({super.key});
 
   @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
+  State<BottomNav> createState() => _BottomNavState();
 }
 
-class _BottomNavigationState extends State<BottomNavigation> {
+class _BottomNavState extends State<BottomNav> {
   late final List<Widget> _pages;
   late HomePage homePage;
   late PointsPage pointsPage;
@@ -33,7 +33,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Colors.green,
