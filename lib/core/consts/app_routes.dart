@@ -1,5 +1,5 @@
 class AppRoutes {
-  static const String authCheck = '/authcheck';
+  static const String authCheck = '/authCheck';
   static const String onboarding = '/onboarding';
   static const String uploadItem = '/uploadItem';
   static const String adminApproval = '/admin_approval';
@@ -23,4 +23,5 @@ class AppRoutes {
   static const String checkout = '/checkout';
   static const String orderHistory = '/orderHistory';
   static const String productDetails = '/productDetails';
+  
 }

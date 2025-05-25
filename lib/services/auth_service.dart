@@ -23,7 +23,13 @@ class AuthService {
     final UserCredential userCredential = await firebaseAuth
         .signInWithCredential(credential);
     final User? user = userCredential.user;
-    await SharedPreferencesHelper().saveUserId(user!.uid);
+
+    if (user == null) {
+      print("Firebase user is null after sign-in.");
+      return;
+    }
+
+    await SharedPreferencesHelper().saveUserId(user.uid);
     await SharedPreferencesHelper().saveUserName(user.displayName!);
     await SharedPreferencesHelper().saveUserEmail(user.email!);
     await SharedPreferencesHelper().saveUserImage(user.photoURL!);
@@ -36,7 +42,15 @@ class AuthService {
       'points': 0,
     };
 
-    await DatabaseMethods().addUserInfo(userData, user.uid);
+    // Check if user already exists
+    bool userExists = await DatabaseMethods().checkUserExists(user.uid);
+
+    if (!userExists) {
+      await DatabaseMethods().addUserInfo(userData, user.uid);
+      print("New user added to database.");
+    } else {
+      print("User already exists in database.");
+    }
   }
 
   Future signOut() async {

@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 
-class PointsPage extends StatelessWidget {
+import '../services/database.dart';
+import '../services/shared_pref.dart';
+
+class PointsPage extends StatefulWidget {
   const PointsPage({super.key});
+
+  @override
+  State<PointsPage> createState() => _PointsPageState();
+}
+
+class _PointsPageState extends State<PointsPage> {
+  int? _points;
+  Future getUserPoints() async {
+    final id = await SharedPreferencesHelper().getUserId();
+
+    final points = await DatabaseMethods().getUserPoints(id!);
+    setState(() {
+      _points = points;
+    });
+  }
+
+  @override
+  void initState() {
+    getUserPoints();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +88,15 @@ class PointsPage extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/points.png',
+                    'assets/images/coin.png',
                     width: availableWidth * 0.3,
                     height: availableHeight * 0.2,
                   ),
                   const SizedBox(height: 10),
-                  Text('1000', style: AppTextStyle.boldTextStyle(40)),
+                  Text(
+                    _points == null ? '0' : _points.toString(),
+                    style: AppTextStyle.boldTextStyle(40),
+                  ),
                 ],
               ),
             ),

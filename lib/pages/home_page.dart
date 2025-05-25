@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_app/app_routes.dart';
 import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/services/auth_service.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
+
+import '../core/consts/app_routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,18 +17,16 @@ class _HomePageState extends State<HomePage> {
 
   String? uid, username, userEmail, userImage;
 
-  getUserInfoFromSharedPref() async {
-    final name = await SharedPreferencesHelper().getUserName();
-    final id = await SharedPreferencesHelper().getUserId();
-    final profile = await SharedPreferencesHelper().getUserImage();
-    final email = await SharedPreferencesHelper().getUserEmail();
+  Future getUserInfoFromSharedPref() async {
+    username = await SharedPreferencesHelper().getUserName();
+    uid = await SharedPreferencesHelper().getUserId();
+    userImage = await SharedPreferencesHelper().getUserImage();
+    userEmail = await SharedPreferencesHelper().getUserEmail();
 
-    setState(() {
-      uid = id;
-      username = name;
-      userImage = profile;
-      userEmail = email;
-    });
+    print("Home Loaded");
+    print('$uid $username $userImage $userEmail');
+
+    setState(() {});
   }
 
   @override
@@ -39,116 +38,44 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        foregroundColor: Colors.white,
-        title: Text("សម្រាមកែឆ្នៃ", style: AppTextStyle.boldTextStyle(16)),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {
-              // Handle notification action
-            },
-          ),
-        ],
-      ),
-      drawer: _drawer(context),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 20.0),
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical: 20.0,
-              ),
-              child: Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.circular(25.0),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(25.0),
-                      child: Image.asset("assets/images/tash_bin.jpeg"),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25, top: 25),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Earn Points",
-                            style: AppTextStyle.whiteTextStyle(40.0),
-                          ),
-                          Text(
-                            "for discarded trash",
-                            style: AppTextStyle.whiteTextStyle(24.0),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                "Categories",
-                style: AppTextStyle.headlineTextStyle(20.0),
-              ),
-            ),
-            _buildCategoryList(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: _buildAppBar(),
+      drawer: _buildDrawer(context),
+      body: _buildBody(),
+    );
+  }
 
+  _buildBody() {
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: 20.0),
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 20.0,
+            ),
+            child: Material(
+              elevation: 5.0,
+              borderRadius: BorderRadius.circular(25.0),
+              child: Stack(
                 children: [
-                  Text(
-                    "Pending Requests",
-                    style: AppTextStyle.headlineTextStyle(20.0),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: Image.asset("assets/images/tash_bin.jpeg"),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    margin: EdgeInsets.symmetric(vertical: 20.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(width: 2.0, color: Colors.blueGrey),
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25, top: 25),
                     child: Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.green,
-                              size: 30.0,
-                            ),
-                            SizedBox(width: 10.0),
-                            Text(
-                              "Main market, Phnom Penh",
-                              style: AppTextStyle.normalTextStyle(20),
-                            ),
-                          ],
+                        Text(
+                          "Earn Points",
+                          style: AppTextStyle.whiteTextStyle(40.0),
                         ),
-                        Divider(),
-                        Image.asset(
-                          "assets/images/home3.jpeg",
-                          height: 150,
-                          fit: BoxFit.cover,
-                        ),
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.layers, color: Colors.green, size: 30.0),
-                            SizedBox(width: 10.0),
-                            Text('3', style: AppTextStyle.normalTextStyle(20)),
-                          ],
+                        Text(
+                          "for discarded trash",
+                          style: AppTextStyle.whiteTextStyle(24.0),
                         ),
                       ],
                     ),
@@ -156,13 +83,93 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              "Categories",
+              style: AppTextStyle.headlineTextStyle(20.0),
+            ),
+          ),
+          _buildCategoryList(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
+              children: [
+                Text(
+                  "Pending Requests",
+                  style: AppTextStyle.headlineTextStyle(20.0),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  margin: EdgeInsets.symmetric(vertical: 20.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.0),
+                    border: Border.all(width: 2.0, color: Colors.blueGrey),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.green,
+                            size: 30.0,
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                            "Main market, Phnom Penh",
+                            style: AppTextStyle.normalTextStyle(20),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Image.asset(
+                        "assets/images/home3.jpeg",
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.layers, color: Colors.green, size: 30.0),
+                          SizedBox(width: 10.0),
+                          Text('3', style: AppTextStyle.normalTextStyle(20)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  _drawer(BuildContext context) {
+  _buildAppBar() {
+    return AppBar(
+      foregroundColor: Colors.white,
+      title: Text("សម្រាមកែឆ្នៃ", style: AppTextStyle.boldTextStyle(16)),
+      centerTitle: true,
+      backgroundColor: Colors.green,
+      actions: [
+        IconButton(
+          icon: Icon(Icons.notifications),
+          onPressed: () {
+            // Handle notification action
+          },
+        ),
+      ],
+    );
+  }
+
+  _buildDrawer(BuildContext context) {
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 SizedBox(height: 10),
-                avatarProfile(),
+                _buildAvatarProfile(),
                 SizedBox(height: 10),
                 Text(
                   username ?? 'Anonymous',
@@ -279,7 +286,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SizedBox avatarProfile() {
+  _buildAvatarProfile() {
     return SizedBox(
       height: 80,
       width: 80,
@@ -302,7 +309,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container _buildCategoryList() {
+  _buildCategoryList() {
     return Container(
       margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
       height: 120,
@@ -328,7 +335,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Column _buildCategoryCard({required String image, required String text}) {
+  _buildCategoryCard({required String image, required String text}) {
     return Column(
       children: [
         GestureDetector(

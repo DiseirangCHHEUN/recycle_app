@@ -11,14 +11,14 @@ class AuthChecker extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        try {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return (snapshot.hasData) ? BottomNav() : LoginPage();
-        } catch (e) {
-          return const Center(child: CircularProgressIndicator());
+        print("My connection states : ${snapshot.connectionState}");
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            body: const Center(child: CircularProgressIndicator()),
+          );
         }
+        return (snapshot.hasData) ? BottomNav() : LoginPage();
       },
     );
   }

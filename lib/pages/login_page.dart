@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycle_app/core/consts/app_routes.dart';
 import 'package:recycle_app/services/auth_service.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 
@@ -53,8 +54,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 25.0),
                   GestureDetector(
-                    onTap: () {
-                      AuthService().signinWithGoogle();
+                    onTap: () async {
+                      await AuthService().signinWithGoogle();
+                      Navigator.pushNamed(context, AppRoutes.authCheck);
                     },
                     child: Material(
                       borderRadius: BorderRadius.circular(10.0),

@@ -33,21 +33,27 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        color: Colors.green,
-        height: 60,
-        items: const <Widget>[
-          Icon(Icons.home_rounded, size: 30, color: Colors.white),
-          Icon(Icons.point_of_sale_rounded, size: 30, color: Colors.white),
-          Icon(Icons.person_rounded, size: 30, color: Colors.white),
-        ],
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-      ),
+      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
+
+  _buildBottomNavBar() {
+    return CurvedNavigationBar(
+      backgroundColor: Colors.transparent,
+      color: Colors.green,
+      height: 60,
+      items: _bottomNavBarItem,
+      onTap: (index) {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+    );
+  }
+
+  final List<Widget> _bottomNavBarItem = [
+    Icon(Icons.home_rounded, size: 30, color: Colors.white),
+    Icon(Icons.point_of_sale_rounded, size: 30, color: Colors.white),
+    Icon(Icons.person_rounded, size: 30, color: Colors.white),
+  ];
 }

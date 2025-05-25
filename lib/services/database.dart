@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethods {
+  Future<bool> checkUserExists(String uid) async {
+    DocumentSnapshot doc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    return doc.exists;
+  }
+
   Future addUserInfo(Map<String, dynamic> userInfoMap, String uid) async {
     try {
       await FirebaseFirestore.instance
@@ -111,10 +117,10 @@ class DatabaseMethods {
     }
   }
 
-  Future<int?> getUserPoints(String docId) async {
+  Future<int?> getUserPoints(String uid) async {
     try {
       final userSnapshot =
-          await FirebaseFirestore.instance.collection('users').doc(docId).get();
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
       if (userSnapshot.exists) {
         return userSnapshot.get('points');

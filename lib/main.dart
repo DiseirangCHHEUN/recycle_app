@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:recycle_app/admin/admin_rejected.dart';
-import 'package:recycle_app/consts/app_strings.dart';
+import 'package:recycle_app/core/consts/app_strings.dart';
 import 'package:recycle_app/firebase_options.dart' show DefaultFirebaseOptions;
 import 'package:recycle_app/pages/login_page.dart';
 import 'package:recycle_app/pages/home_page.dart';
@@ -9,7 +9,7 @@ import 'package:recycle_app/pages/onboarding_page.dart';
 import 'package:recycle_app/settings/setting_page.dart';
 
 import 'admin/admin_approval.dart';
-import 'consts/app_routes.dart';
+import 'core/consts/app_routes.dart';
 import 'pages/bottom_nav.dart';
 import 'wrapper/auth_checker.dart';
 import 'pages/upload_item.dart';
