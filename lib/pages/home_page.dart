@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
             title: Text('Rejected Request'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/rejected_items');
+              Navigator.pushNamed(context, AppRoutes.adminRejected);
             },
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
           ),
@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> {
             leading: Icon(Icons.settings_rounded),
             title: Text('Settings'),
             onTap: () {
-              Navigator.pushNamed(context, '/settings');
+              Navigator.pushNamed(context, AppRoutes.settings);
             },
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
           ),
