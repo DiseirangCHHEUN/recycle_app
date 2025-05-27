@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
-import 'package:recycle_app/widgets/material_button.dart';
+import 'package:recycle_app/core/utils/material_button.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -31,7 +31,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   style: AppTextStyle.normalTextStyle(20.0),
                 ),
                 SizedBox(height: 100.0),
-                MButton('Get Started', onTap: () {}),
+                MyMaterialButton('Get Started', onTap: () {}),
               ],
             ),
           ),

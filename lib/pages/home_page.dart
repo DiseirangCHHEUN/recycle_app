@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/services/auth_service.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
@@ -14,7 +15,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // final User? user = FirebaseAuth.instance.currentUser;
-
   String? uid, username, userEmail, userImage;
 
   Future getUserInfoFromSharedPref() async {
@@ -22,10 +22,6 @@ class _HomePageState extends State<HomePage> {
     uid = await SharedPreferencesHelper().getUserId();
     userImage = await SharedPreferencesHelper().getUserImage();
     userEmail = await SharedPreferencesHelper().getUserEmail();
-
-    print("Home Loaded");
-    print('$uid $username $userImage $userEmail');
-
     setState(() {});
   }
 
@@ -53,29 +49,39 @@ class _HomePageState extends State<HomePage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 20.0,
-              vertical: 20.0,
+              horizontal: 10.0,
+              vertical: 10.0,
             ),
             child: Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(25.0),
               child: Stack(
                 children: [
+                  // ClipRRect(
+                  //   borderRadius: BorderRadius.circular(25.0),
+                  //   child: Image.asset("assets/images/tash_bin.jpeg"),
+                  // ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
-                    child: Image.asset("assets/images/tash_bin.jpeg"),
+                    child: Lottie.asset(
+                      'assets/lotties/gmi_environmental.json',
+                      width: double.infinity,
+                      // height: 200,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 25, top: 25),
+                    padding: const EdgeInsets.only(left: 20, top: 10),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Earn Points",
-                          style: AppTextStyle.whiteTextStyle(40.0),
+                          style: AppTextStyle.whiteTextStyle(30.0),
                         ),
                         Text(
                           "for discarded trash",
-                          style: AppTextStyle.whiteTextStyle(24.0),
+                          style: AppTextStyle.whiteTextStyle(20.0),
                         ),
                       ],
                     ),
@@ -85,7 +91,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
               "Categories",
               style: AppTextStyle.headlineTextStyle(20.0),
@@ -93,7 +99,7 @@ class _HomePageState extends State<HomePage> {
           ),
           _buildCategoryList(),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -104,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10.0),
-                  margin: EdgeInsets.symmetric(vertical: 20.0),
+                  margin: EdgeInsets.symmetric(vertical: 10.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25.0),
                     border: Border.all(width: 2.0, color: Colors.blueGrey),
@@ -311,24 +317,24 @@ class _HomePageState extends State<HomePage> {
 
   _buildCategoryList() {
     return Container(
-      margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
+      margin: EdgeInsets.only(top: 10.0),
       height: 120,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
         children: [
           _buildCategoryCard(image: 'assets/images/glass.jpeg', text: "Glass"),
-          SizedBox(width: 20),
+          SizedBox(width: 10),
           _buildCategoryCard(
             image: 'assets/images/battery.jpeg',
             text: "Battery",
           ),
-          SizedBox(width: 20),
+          SizedBox(width: 10),
           _buildCategoryCard(
             image: 'assets/images/plastic.jpeg',
             text: "Plastic",
           ),
-          SizedBox(width: 20),
+          SizedBox(width: 10),
           _buildCategoryCard(image: 'assets/images/papper.jpeg', text: "Paper"),
         ],
       ),
@@ -365,7 +371,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         SizedBox(height: 5.0),
-        Text(text, style: AppTextStyle.normalTextStyle(18.0)),
+        Text(text, style: AppTextStyle.normalTextStyle(16.0)),
       ],
     );
   }

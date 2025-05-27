@@ -107,7 +107,7 @@ class DatabaseMethods {
     }
   }
 
-  Future updateUserPoints(String uid, int newPoints) async {
+  Future updateUserPoints({required String uid, required int newPoints}) async {
     try {
       await FirebaseFirestore.instance.collection("users").doc(uid).update({
         'points': newPoints,
@@ -131,6 +131,37 @@ class DatabaseMethods {
     } catch (e) {
       print("Error getting user points $e");
       return null;
+    }
+  }
+
+  Future addUserRedeemPoint(
+    Map<String, dynamic> itemInfoMap,
+    String id,
+    String redeemID,
+  ) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(id)
+          .collection("redeems")
+          .doc(redeemID)
+          .set(itemInfoMap);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future addAdminRedeemRequest(
+    Map<String, dynamic> itemInfoMap,
+    String redeemID,
+  ) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("redeems")
+          .doc(redeemID)
+          .set(itemInfoMap);
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

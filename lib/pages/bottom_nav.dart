@@ -2,7 +2,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:recycle_app/pages/home_page.dart';
 import 'package:recycle_app/pages/profile_page.dart';
-
 import 'points_page.dart';
 
 class BottomNav extends StatefulWidget {
@@ -13,21 +12,12 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  late final List<Widget> _pages;
-  late HomePage homePage;
-  late PointsPage pointsPage;
-  late ProfilePage profilePage;
+  final List<Widget> _pages = [
+    const HomePage(),
+    const PointsPage(),
+    const ProfilePage(),
+  ];
   int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    homePage = const HomePage();
-    pointsPage = const PointsPage();
-    profilePage = const ProfilePage();
-
-    _pages = [homePage, pointsPage, profilePage];
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +31,7 @@ class _BottomNavState extends State<BottomNav> {
     return CurvedNavigationBar(
       backgroundColor: Colors.transparent,
       color: Colors.green,
+      animationDuration: const Duration(milliseconds: 300),
       height: 60,
       items: _bottomNavBarItem,
       onTap: (index) {

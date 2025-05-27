@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
-import 'package:recycle_app/widgets/custom_appBar.dart';
 
+import '../core/utils/app_bar.dart';
 import '../services/database.dart';
 
 class AdminReject extends StatefulWidget {

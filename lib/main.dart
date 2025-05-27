@@ -7,7 +7,6 @@ import 'package:recycle_app/pages/login_page.dart';
 import 'package:recycle_app/pages/home_page.dart';
 import 'package:recycle_app/pages/onboarding_page.dart';
 import 'package:recycle_app/settings/setting_page.dart';
-
 import 'admin/admin_approval.dart';
 import 'core/consts/app_routes.dart';
 import 'pages/bottom_nav.dart';

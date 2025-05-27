@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
-import 'package:recycle_app/widgets/custom_appBar.dart';
+import 'package:recycle_app/core/utils/app_bar.dart';
 
 import '../services/database.dart';
 
@@ -181,8 +181,8 @@ class _UploadItemState extends State<AdminApproval> {
                       int? userPoints = await getUserPoints(userID);
                       int newPoints = userPoints! + 100;
                       await DatabaseMethods().updateUserPoints(
-                        userID,
-                        newPoints,
+                        uid: userID,
+                        newPoints: newPoints,
                       );
                       // Handle approve action
                       await DatabaseMethods().adminApproveRequestItem(id);

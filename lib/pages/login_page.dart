@@ -54,8 +54,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 25.0),
                   GestureDetector(
-                    onTap: () async {
-                      await AuthService().signinWithGoogle();
+                    onTap: () {
+                      AuthService().signinWithGoogle();
                       Navigator.pushNamed(context, AppRoutes.authCheck);
                     },
                     child: Material(

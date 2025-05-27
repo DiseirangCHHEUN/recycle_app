@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../styles/app_text_style.dart';
+import '../../styles/app_text_style.dart';
 
-class MButton extends StatelessWidget {
-  const MButton(this.text, {super.key, required this.onTap});
-
+class MyMaterialButton extends StatelessWidget {
+  const MyMaterialButton(this.text, {super.key, required this.onTap});
   final String text;
-
   final VoidCallback onTap;
 
   @override
@@ -15,7 +13,6 @@ class MButton extends StatelessWidget {
       onTap: onTap,
       child: Material(
         elevation: 3.0,
-
         borderRadius: BorderRadius.circular(8),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),

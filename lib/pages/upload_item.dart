@@ -5,9 +5,9 @@ import 'package:random_string/random_string.dart';
 import 'package:recycle_app/services/database.dart';
 import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
-import 'package:recycle_app/widgets/material_button.dart';
+import 'package:recycle_app/core/utils/material_button.dart';
 
-import '../widgets/custom_appBar.dart';
+import '../core/utils/app_bar.dart';
 
 class UploadItem extends StatefulWidget {
   const UploadItem({super.key});
@@ -161,9 +161,9 @@ class _UploadItemState extends State<UploadItem> {
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 30.0),
-                    MButton(
+                    MyMaterialButton(
                       'Upload',
-                      onTap: () async {
+                      onTap: () {
                         // Handle button tap
                         try {
                           if (selectedImage != null &&
@@ -195,16 +195,13 @@ class _UploadItemState extends State<UploadItem> {
                               'status': 'pending',
                             };
 
-                            await DatabaseMethods().addUserUploadItem(
+                            DatabaseMethods().addUserUploadItem(
                               addItemInfo,
                               userId!,
                               itemId,
                             );
 
-                            await DatabaseMethods().addAdminItem(
-                              addItemInfo,
-                              itemId,
-                            );
+                            DatabaseMethods().addAdminItem(addItemInfo, itemId);
 
                             // Clear the text fields
                             addressController.clear();

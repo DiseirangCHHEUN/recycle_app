@@ -19,7 +19,6 @@ class AppStrings {
   static const String loadingMessage = 'Loading...';
   static const String noDataMessage = 'No data available.';
   static const String retryButton = 'Retry';
-
   static const String deleteButton = 'Delete';
   static const String editButton = 'Edit';
   static const String saveButton = 'Save';
