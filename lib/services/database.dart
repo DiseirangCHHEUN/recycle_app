@@ -53,19 +53,19 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future<Stream<QuerySnapshot>> getUserRedeemRequest(String id) async {
+  Future<Stream<QuerySnapshot>> getUserRedeemRequest(String uId) async {
     return FirebaseFirestore.instance
         .collection("users")
-        .doc(id)
+        .doc(uId)
         .collection('redeems')
         .snapshots();
   }
 
-  Future<Stream<QuerySnapshot>> getAdminRejectedItems(String uid) async {
+  Future<Stream<QuerySnapshot>> getAdminRejectedItems(String uId) async {
     return FirebaseFirestore.instance
         .collection("requests")
         .where('status', isEqualTo: 'rejected')
-        .where('userId', isEqualTo: uid)
+        .where('userId', isEqualTo: uId)
         .snapshots();
   }
 

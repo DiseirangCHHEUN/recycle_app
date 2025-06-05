@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     uid = await SharedPreferencesHelper().getUserId();
     userImage = await SharedPreferencesHelper().getUserImage();
     userEmail = await SharedPreferencesHelper().getUserEmail();
+
     setState(() {});
   }
 
@@ -59,12 +60,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   // ClipRRect(
                   //   borderRadius: BorderRadius.circular(25.0),
-                  //   child: Image.asset("assets/images/tash_bin.jpeg"),
+                  //   child: Image.asset("assets/images/trash_bin.jpeg"),
                   // ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: Lottie.asset(
-                      'assets/lotties/gmi_environmental.json',
+                      'assets/lottie/gmi_environmental.json',
                       width: double.infinity,
                       // height: 200,
                       fit: BoxFit.cover,
@@ -161,7 +162,7 @@ class _HomePageState extends State<HomePage> {
   _buildAppBar() {
     return AppBar(
       foregroundColor: Colors.white,
-      title: Text("សម្រាមកែឆ្នៃ", style: AppTextStyle.boldTextStyle(16)),
+      title: Text("ឆ្នៃឡើងវិញ", style: AppTextStyle.boldTextStyle(16)),
       centerTitle: true,
       backgroundColor: Colors.green,
       actions: [
@@ -205,11 +206,11 @@ class _HomePageState extends State<HomePage> {
                 _buildAvatarProfile(),
                 SizedBox(height: 10),
                 Text(
-                  username ?? 'Anonymous',
+                  username ?? 'Anonymous User',
                   style: AppTextStyle.whiteTextStyle(20),
                 ),
                 Text(
-                  userEmail ?? 'No email',
+                  userEmail ?? 'Anonymous User',
                   style: AppTextStyle.whiteTextStyle(14),
                 ),
                 SizedBox(height: 25),
@@ -335,7 +336,9 @@ class _HomePageState extends State<HomePage> {
             text: "Plastic",
           ),
           SizedBox(width: 10),
-          _buildCategoryCard(image: 'assets/images/papper.jpeg', text: "Paper"),
+          _buildCategoryCard(image: 'assets/images/paper.jpeg', text: "Paper"),
+          SizedBox(width: 10),
+          _buildCategoryCard(image: 'assets/images/glass.jpeg', text: "Glass"),
         ],
       ),
     );
@@ -354,7 +357,7 @@ class _HomePageState extends State<HomePage> {
             );
           },
           child: Container(
-            padding: EdgeInsets.all(5),
+            // padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
               border: Border.all(width: 2.0, color: Colors.black54),

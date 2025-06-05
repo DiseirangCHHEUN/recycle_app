@@ -11,7 +11,7 @@ class AuthChecker extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        print("My connection states : ${snapshot.connectionState}");
+        // print("My connection states : ${snapshot.connectionState}");
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(

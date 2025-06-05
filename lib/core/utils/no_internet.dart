@@ -12,7 +12,7 @@ class NoInternet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
-              'assets/lotties/no_internet_connection.json',
+              'assets/lottie/no_internet_connection.json',
               width: 200,
               height: 200,
               fit: BoxFit.cover,
