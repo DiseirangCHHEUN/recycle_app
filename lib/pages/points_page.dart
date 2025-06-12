@@ -44,7 +44,7 @@ class _PointsPageState extends State<PointsPage> {
     super.initState();
   }
 
-  allUserRedeemRequests(Size screenSize) {
+  userRedeemRequests(Size screenSize) {
     if (getUserRedeemRequestStream == null) {
       return Center(child: CircularProgressIndicator(color: Colors.green));
     }
@@ -224,7 +224,7 @@ class _PointsPageState extends State<PointsPage> {
                                 ),
                                 SizedBox(height: 10),
                                 Expanded(
-                                  child: allUserRedeemRequests(screenSize),
+                                  child: userRedeemRequests(screenSize),
                                 ),
                               ],
                             ),
@@ -392,6 +392,8 @@ class _PointsPageState extends State<PointsPage> {
                                   'upiID': upiID,
                                   'status': 'pending',
                                   'date': formattedDate,
+                                  'createdAt' : now,
+                                  'updatedAt' : ""
                                 };
 
                                 final String redeemID = randomAlphaNumeric(10);

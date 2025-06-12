@@ -1,12 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recycle_app/admin/admin_rejected.dart';
+import 'package:recycle_app/admin/redeem_request.dart';
 import 'package:recycle_app/core/consts/app_strings.dart';
 import 'package:recycle_app/firebase_options.dart' show DefaultFirebaseOptions;
 import 'package:recycle_app/pages/login_page.dart';
 import 'package:recycle_app/pages/home_page.dart';
 import 'package:recycle_app/pages/onboarding_page.dart';
-import 'package:recycle_app/settings/setting_page.dart';
+import 'package:recycle_app/pages/setting_page.dart';
 import 'admin/admin_approval.dart';
 import 'core/consts/app_routes.dart';
 import 'pages/bottom_nav.dart';
@@ -16,6 +18,10 @@ import 'pages/upload_item.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   runApp(MyApp());
 }
 
@@ -46,6 +52,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.adminRejected: (context) => AdminReject(),
         AppRoutes.settings: (context) => SettingPage(),
         AppRoutes.bottomNav: (context) => BottomNav(),
+        AppRoutes.redeemRequest : (context) => RedeemRequest()
       },
     );
   }
