@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recycle_app/pages/bottom_nav.dart';
-import 'package:recycle_app/pages/login_page.dart';
+import 'package:recycle_app/feature/pages/bottom_nav.dart';
+import 'package:recycle_app/feature/auth/page/login_page.dart';
 
 class AuthChecker extends StatelessWidget {
   const AuthChecker({super.key});

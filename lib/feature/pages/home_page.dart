@@ -4,7 +4,7 @@ import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/services/auth_service.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 
-import '../core/consts/app_routes.dart';
+import '../../core/consts/app_routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,12 +37,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: _buildAppBar(),
       drawer: _buildDrawer(context),
-      body: RefreshIndicator(
-        child: _buildBody(),
-        onRefresh: () {
-          return getUserInfoFromSharedPref();
-        },
-      ),
+      body: _buildBody(),
     );
   }
 
@@ -167,7 +162,7 @@ class _HomePageState extends State<HomePage> {
   _buildAppBar() {
     return AppBar(
       foregroundColor: Colors.white,
-      title: Text("Recycling", style: AppTextStyle.boldTextStyle(16)),
+      title: Text("ឆ្នៃឡើងវិញ", style: AppTextStyle.boldTextStyle(16)),
       centerTitle: true,
       backgroundColor: Colors.green,
       actions: [
@@ -237,16 +232,6 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, AppRoutes.adminApproval);
-            },
-            trailing: Icon(Icons.arrow_forward_ios, size: 15),
-          ),
-
-          ListTile(
-            leading: Icon(Icons.redeem_rounded),
-            title: Text('Redeem Request'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, AppRoutes.redeemRequest);
             },
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
           ),
@@ -336,7 +321,6 @@ class _HomePageState extends State<HomePage> {
       margin: EdgeInsets.only(top: 10.0),
       height: 120,
       child: ListView(
-        physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(horizontal: 10.0),
         children: [

@@ -61,13 +61,6 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future<Stream<QuerySnapshot>> getAllUserRedeemRequest() async {
-    return FirebaseFirestore.instance
-        .collection('redeems')
-        .orderBy("date")
-        .snapshots();
-  }
-
   Future<Stream<QuerySnapshot>> getAdminRejectedItems(String uId) async {
     return FirebaseFirestore.instance
         .collection("requests")

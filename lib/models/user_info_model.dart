@@ -1,10 +1,10 @@
-class User {
+class UserInfoModel {
   String? id;
   String? userName;
   String? userProfile;
   String? userEmail;
 
-  User({this.id, this.userName, this.userProfile, this.userEmail});
+  UserInfoModel({this.id, this.userName, this.userProfile, this.userEmail});
 
   String get getId => id ?? '';
   String get getUserName => userName ?? 'Anonymous';
@@ -29,8 +29,8 @@ class User {
     userEmail = value;
   }
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserInfoModel.fromJson(Map<String, dynamic> json) {
+    return UserInfoModel(
       id: json['id'] as String?,
       userName: json['userName'] as String?,
       userProfile: json['userProfile'] as String?,

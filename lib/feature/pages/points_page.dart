@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:random_string/random_string.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
-import '../services/database.dart';
-import '../services/shared_pref.dart';
+import '../../services/database.dart';
+import '../../services/shared_pref.dart';
 
 class PointsPage extends StatefulWidget {
   const PointsPage({super.key});
@@ -44,7 +44,7 @@ class _PointsPageState extends State<PointsPage> {
     super.initState();
   }
 
-  userRedeemRequests(Size screenSize) {
+  allUserRedeemRequests(Size screenSize) {
     if (getUserRedeemRequestStream == null) {
       return Center(child: CircularProgressIndicator(color: Colors.green));
     }
@@ -224,7 +224,7 @@ class _PointsPageState extends State<PointsPage> {
                                 ),
                                 SizedBox(height: 10),
                                 Expanded(
-                                  child: userRedeemRequests(screenSize),
+                                  child: allUserRedeemRequests(screenSize),
                                 ),
                               ],
                             ),
@@ -392,8 +392,6 @@ class _PointsPageState extends State<PointsPage> {
                                   'upiID': upiID,
                                   'status': 'pending',
                                   'date': formattedDate,
-                                  'createdAt' : now,
-                                  'updatedAt' : ""
                                 };
 
                                 final String redeemID = randomAlphaNumeric(10);

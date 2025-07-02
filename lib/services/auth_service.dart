@@ -5,30 +5,40 @@ import 'package:recycle_app/services/shared_pref.dart';
 import 'database.dart';
 
 class AuthService {
-  signinWithGoogle() async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
+  final firebaseAuth = FirebaseAuth.instance;
+  final googleSignIn = GoogleSignIn();
+  final sharedPreferences = SharedPreferencesHelper();
+  Future<bool> signinWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
 
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount!.authentication;
+      // Check if user cancel signin process
+      if (googleSignInAccount == null) {
+        return false; // User cancelled
+      }
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
+      // Get authentication token
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      // create a firebase credential using the token from google
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
+
+      // get user info
       final UserCredential userCredential = await firebaseAuth
-          .signInWithCredential(credential);
+          .signInWithCredential(authCredential);
       final User? user = userCredential.user;
 
       if (user == null) {
         print("Firebase user is null after sign-in.");
-        return;
+        return false;
       }
 
+      // save user info to sharedpreferences
       await SharedPreferencesHelper().saveUserId(user.uid);
       await SharedPreferencesHelper().saveUserName(user.displayName!);
       await SharedPreferencesHelper().saveUserEmail(user.email!);
@@ -43,26 +53,26 @@ class AuthService {
       };
 
       // Check if user already exists
-      bool userExists = await DatabaseMethods().checkUserExists(user.uid);
+      bool existingUser = await DatabaseMethods().checkUserExists(user.uid);
 
-      if (!userExists) {
+      if (!existingUser) {
         await DatabaseMethods().addUserInfo(userData, user.uid);
         print("New user added to database.");
       } else {
         print("User already exists in database.");
       }
-    } catch (e) {
-      print("Error signing in with Google: $e");
+
+      await firebaseAuth.signInWithCredential(authCredential);
+      return true; // Sign-In successful
+    } on FirebaseAuthException catch (e) {
+      print("Error : $e");
+      return false;
     }
   }
 
   Future signOut() async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
     await firebaseAuth.signOut();
     await googleSignIn.signOut();
-
-    await SharedPreferencesHelper().clearUserData();
+    await sharedPreferences.clearUserData();
   }
 }

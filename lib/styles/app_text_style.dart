@@ -17,6 +17,10 @@ class AppTextStyle {
     );
   }
 
+  static TextStyle normalLightTextStyle(double size) {
+    return TextStyle(fontSize: size);
+  }
+
   static TextStyle boldTextStyle(double size) {
     return TextStyle(
       fontSize: size,

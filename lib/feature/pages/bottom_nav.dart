@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:recycle_app/pages/home_page.dart';
-import 'package:recycle_app/pages/profile_page.dart';
+import 'package:recycle_app/feature/pages/home_page.dart';
+import 'package:recycle_app/feature/pages/profile_page.dart';
 import 'points_page.dart';
 
 class BottomNav extends StatefulWidget {

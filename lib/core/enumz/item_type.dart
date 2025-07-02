@@ -1,1 +1,0 @@
-enum ItemType {glass, battery, plastic, paper}

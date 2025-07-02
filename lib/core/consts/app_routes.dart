@@ -4,7 +4,6 @@ class AppRoutes {
   static const String uploadItem = '/uploadItem';
   static const String adminApproval = '/admin_approval';
   static const String adminRejected = '/rejected_items';
-  static const String redeemRequest = '/redeem_request';
   static const String bottomNav = '/bottom_nav';
   static const String settings = '/settings';
   static const String splash = '/splash';
@@ -24,6 +23,5 @@ class AppRoutes {
   static const String checkout = '/checkout';
   static const String orderHistory = '/orderHistory';
   static const String productDetails = '/productDetails';
-
   
 }

@@ -7,7 +7,7 @@ import 'package:recycle_app/services/shared_pref.dart';
 import 'package:recycle_app/styles/app_text_style.dart';
 import 'package:recycle_app/core/utils/material_button.dart';
 
-import '../core/utils/app_bar.dart';
+import '../../core/utils/app_bar.dart';
 
 class UploadItem extends StatefulWidget {
   const UploadItem({super.key});

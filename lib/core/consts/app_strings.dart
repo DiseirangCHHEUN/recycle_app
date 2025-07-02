@@ -12,6 +12,8 @@ class AppStrings {
   static const String appAuthorLinkedIn = 'https://linkedin.com/in/yourprofile';
   static const String appAuthorGitHub = '';
   static const String welcomeMessage = 'Welcome to MyApp!';
+  static const String welcomeText =
+      "Every items you recycle\nmakes a difference!";
   static const String loginButton = 'Login';
   static const String signupButton = 'Sign Up';
   static const String logoutButton = 'Logout';
@@ -57,4 +59,6 @@ class AppStrings {
   static const String feedbackTitle = 'Feedback';
   static const String notificationsTitle = 'Notifications';
   static const String searchTitle = 'Search';
+
+  static const String getStarted = "Get Started!";
 }
