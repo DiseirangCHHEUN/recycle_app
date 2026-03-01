@@ -4,7 +4,7 @@ class AppStrings {
       'A platform to recycle and donate items.';
   static const String appVersion = 'Version 1.0.0';
   static const String appAuthor = 'Your Name';
-  static const String appAuthorEmail = '';
+  static const String appAuthorEmail = 'author@anyemail.com';
   static const String appAuthorWebsite = 'https://yourwebsite.com';
   static const String appAuthorTwitter = 'https://twitter.com/yourprofile';
   static const String appAuthorFacebook = 'https://facebook.com/yourprofile';
@@ -20,7 +20,7 @@ class AppStrings {
   static const String errorMessage = 'An error occurred. Please try again.';
   static const String loadingMessage = 'Loading...';
   static const String noDataMessage = 'No data available.';
-  static const String retryButton = 'Retry';
+  static const String retryText = 'Retry';
   static const String deleteButton = 'Delete';
   static const String editButton = 'Edit';
   static const String saveButton = 'Save';
