@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:recycle_app/core/consts/app_routes.dart';
 import 'package:recycle_app/core/consts/app_strings.dart';
 import 'package:recycle_app/services/auth_service.dart';
@@ -37,13 +38,18 @@ class _LoginPageState extends State<LoginPage> {
                     width: 150,
                   ),
                 ),
-                SizedBox(height: 10.0),
+                Gap(10),
+                Text(
+                  "Welcome to Recycle App",
+                  style: AppTextStyle.headlineTextStyle(30.0),
+                  textAlign: TextAlign.center,
+                ),
                 Text(
                   "Reduce. Reuse. Recycle. Repeat!",
                   style: AppTextStyle.headlineTextStyle(25.0),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 35.0),
+                Gap(35),
                 Text(
                   AppStrings.welcomeText,
                   textAlign: TextAlign.center,
@@ -53,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                   AppStrings.getStarted,
                   style: AppTextStyle.greenTextStyle(24.0),
                 ),
-                SizedBox(height: 20.0),
+                Gap(20),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -93,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                                         width: 25.0,
                                       ),
                                     ),
-                                    SizedBox(width: 16.0),
+                                    Gap(16),
                                     Text(
                                       'Sign in with Google',
                                       style: AppTextStyle.whiteTextStyle(
